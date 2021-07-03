@@ -2865,12 +2865,14 @@ If WORKSPACE is not provided current workspace will be used."
 
 (defun lsp--make-message (params)
   "Create a LSP message from PARAMS, after encoding it to a JSON string."
-  (let ((body (lsp--json-serialize params)))
-    (concat "Content-Length: "
-            (number-to-string (1+ (string-bytes body)))
-            "\r\n\r\n"
-            body
-            "\n")))
+  (if (featurep 'emacs-ng)
+      params
+    (let ((body (lsp--json-serialize params)))
+      (concat "Content-Length: "
+              (number-to-string (1+ (string-bytes body)))
+              "\r\n\r\n"
+              body
+              "\n"))))
 
 (cl-defstruct lsp--log-entry timestamp process-time type method id body)
 
