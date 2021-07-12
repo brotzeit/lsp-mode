@@ -7031,6 +7031,7 @@ SESSION is the active session."
     (setf (lsp--workspace-proc workspace) proc
           (lsp--workspace-cmd-proc workspace) cmd-proc)
 
+    (setq lsp-global-workspace workspace)
     ;; update (lsp-session-folder->servers) depending on whether we are starting
     ;; multi/single folder workspace
     (mapc (lambda (project-root)
@@ -7045,7 +7046,7 @@ SESSION is the active session."
       (lsp-request-async
        "initialize"
        (append
-        (list :processId nil
+        (list :processId 33333
               :rootPath (lsp-file-local-name (expand-file-name root))
               :clientInfo (list :name "emacs"
                                 :version (emacs-version))
